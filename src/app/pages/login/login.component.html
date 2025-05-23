@@ -11,43 +11,22 @@
             <div class="card shadow">
                 <div class="card-body">
                     <h3 class="card-title mb-4 text-center">¡Bienvenido de nuevo!</h3>
-                    <form>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" id="email" class="form-control" formControlName="email"
-                                placeholder="Ingrese aquí su email" data-test="email" />
-                            <div class="form-text text-danger">
-                                El email es obligatorio
-                            </div>
+
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <input type="email" formControlName="email" />
+                        <div class="form-text text-danger" *ngIf="submitted && f['email'].errors">
+                            <span *ngIf="f['email'].errors['required']">El email es obligatorio.</span>
+                            <span *ngIf="f['email'].errors['email']">Formato de email inválido.</span>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" id="password" class="form-control" formControlName="password"
-                                placeholder="******************" data-test="password" />
-                            <div class="form-text text-danger">
-                                La contraseña es obligatoria
-                            </div>
+                        <input type="password" formControlName="password" />
+                        <div class="form-text text-danger" *ngIf="submitted && f['password'].errors">
+                            <span *ngIf="f['password'].errors['required']">La contraseña es obligatoria.</span>
                         </div>
 
-                        <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" id="remember" formControlName="rememberMe"
-                                data-test="remember-button" />
-                            <label class="form-check-label" for="remember">Recordar</label>
-                        </div>
-
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary" data-test="login-button">Iniciar
-                                sesión</button>
-                        </div>
-
-                        <hr>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="/register">¡Crea una cuenta!</a>
-                            <a href="/recuperarpw">¿Has olvidado tu contraseña?</a>
-                        </div>
+                        <button type="submit">Iniciar sesión</button>
                     </form>
+
                 </div>
             </div>
 
