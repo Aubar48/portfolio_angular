@@ -1,0 +1,42 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="ratio ratio-16x9 mb-4">
+        <iframe src="https://www.youtube.com/embed/mQG1ckC3e9s"
+          title="Consejos para recuperar tu cuenta"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title mb-4 text-center">¿Olvidaste tu contraseña?</h3>
+          <p class="text-center">
+            Ingresá tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+          </p>
+
+          <form>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" placeholder="tucorreo@example.com"
+                formControlName="email" data-test="forgot-email">
+              <div class="form-text text-danger">
+                Este campo es obligatorio
+              </div>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary" data-test="reset-button">
+                Enviar enlace de recuperación
+              </button>
+            </div>
+
+            <div class="text-center">
+              <a href="/login">Volver al inicio de sesión</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
