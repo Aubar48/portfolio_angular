@@ -48,6 +48,5 @@ Este proyecto puede ejecutarse de forma local fácilmente:
 - 🌍 Ubicación: Córdoba, Argentina
 - 💼 Portfolio: [netlify](https://taupe-mandazi-46506c.netlify.app/)  
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR-BADGE-ID/deploy-status)](https://app.netlify.com/sites/YOUR-SITE-NAME/deploys)
 
 
