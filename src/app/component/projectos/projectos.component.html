@@ -1,0 +1,26 @@
+<div class="container my-5">
+  <h3 class="fw-bold mb-4">Proyectos</h3>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let proyecto of proyectos">
+      <div class="card h-100 shadow-sm border-0">
+        <img [src]="proyecto.imagen" class="card-img-top img-fixed" [alt]="proyecto.titulo">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ proyecto.titulo }}</h5>
+          <p class="card-text">{{ proyecto.descripcion }}</p>
+          <div class="mt-auto">
+            <div class="mb-2">
+              <span class="badge bg-primary me-1" *ngFor="let tech of proyecto.tecnologias">{{ tech }}</span>
+            </div>
+            <a [href]="proyecto.enlace" target="_blank" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-box-arrow-up-right"></i> Github
+            </a>
+            <a [href]="proyecto.enlace_web" target="_blank" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-box-arrow-up-right"></i> Netlify
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
