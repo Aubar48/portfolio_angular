@@ -7,7 +7,9 @@
 
 - HTML5  
 - CSS3  
-- JavaScript  
+- JavaScript - TypeScript
+- Aos
+- Bootstrap  
 - Angular  
 
 > Próximamente:  
@@ -16,7 +18,7 @@
 
 ## 📸 Vista previa
 
-![Captura del Portfolio con angular && bootstrap](./assets/new-desing.png)  
+![Captura del Portfolio con angular && bootstrap](./public/assets/new-desing.png)  
 
 ## 🔧 Cómo ejecutar el proyecto
 
@@ -24,7 +26,7 @@ Este proyecto puede ejecutarse de forma local fácilmente:
 
 1. Cloná el repositorio:
    ```bash
-   git clone https://github.com/Aubar48/portfolio.git
+   git clone https://github.com/Aubar48/portfolio_angular
    ```
 2. Abrí el archivo `index.html` directamente en tu navegador.
 
@@ -34,7 +36,6 @@ Este proyecto puede ejecutarse de forma local fácilmente:
 
 ✅ Proyecto completado en su primera versión  
 🛤️ Futuras mejoras:
-- Migrar a React o Angular
 - Integrar base de datos MySQL + backend con Node.js
 - Sección dinámica de proyectos con datos en tiempo real
 
