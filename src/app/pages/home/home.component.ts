@@ -3,7 +3,7 @@ import { PresentacionComponent } from "../../component/presentacion/presentacion
 import { EstudiosComponent } from "../../component/estudios/estudios.component";
 import { ProjectosComponent } from "../../component/projectos/projectos.component";
 import { CommonModule } from '@angular/common';
-import * as AOS from 'aos';
+import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 @Component({

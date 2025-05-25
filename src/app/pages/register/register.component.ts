@@ -16,6 +16,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
   errorMessage = '';
+  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +26,11 @@ export class RegisterComponent {
     this.registerForm = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+      ]]
     });
   }
 
@@ -35,6 +40,7 @@ export class RegisterComponent {
   onSubmit() {
     this.submitted = true;
     this.errorMessage = '';
+    this.loading = true;
 
     if (this.registerForm.invalid) {
       return;
@@ -48,21 +54,31 @@ export class RegisterComponent {
 
     this.authService.register(registerData).subscribe({
       next: () => {
+        this.loading = false;
         Swal.fire({
           icon: 'success',
           title: '¡Registro exitoso!',
           text: 'Tu cuenta ha sido creada correctamente',
-          confirmButtonText: 'Continuar'
+          confirmButtonText: 'Continuar',
+          allowOutsideClick: false
         }).then(() => {
           this.router.navigate(['/login']);
         });
       },
       error: (error) => {
+        this.loading = false;
         if (error.status === 409) {
           this.errorMessage = 'El correo electrónico ya está registrado';
         } else {
-          this.errorMessage = 'Ocurrió un error durante el registro. Por favor, intenta nuevamente.';
+          this.errorMessage = 'Error en el servidor. Por favor, intenta más tarde.';
         }
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en el registro',
+          text: this.errorMessage,
+          confirmButtonText: 'Entendido'
+        });
       }
     });
   }

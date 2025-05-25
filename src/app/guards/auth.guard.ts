@@ -6,9 +6,15 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (typeof window !== 'undefined' && localStorage.getItem('isLoggedIn') === 'true') {
+  const token = authService.getToken();
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+  if (typeof window !== 'undefined' && token && isLoggedIn) {
     return true;
   }
+
+  // Limpiar datos de autenticación si hay inconsistencias
+  authService.logout();
 
   router.navigate(['/login']);
   return false;

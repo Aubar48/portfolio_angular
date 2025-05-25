@@ -17,6 +17,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
   submitted = false;
   errorMessage: string | null = null;
+  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +38,7 @@ export class LoginComponent {
   onSubmit() {
     this.submitted = true;
     this.errorMessage = null;
+    this.loading = true;
 
     if (this.loginForm.invalid) {
       Object.keys(this.loginForm.controls).forEach(key => {
@@ -52,8 +54,7 @@ export class LoginComponent {
 
     this.authService.login({ email, password }).subscribe({
       next: (response) => {
-        console.log('Login exitoso', response);
-
+        this.loading = false;
         // Guardar email en localStorage si seleccionó "Recordar"
         if (rememberMe) {
           localStorage.setItem('userEmail', email);
@@ -61,28 +62,33 @@ export class LoginComponent {
           localStorage.removeItem('userEmail');
         }
 
-        // Guardar el estado de la sesión
-        localStorage.setItem('isLoggedIn', 'true');
-
         // Mostrar mensaje de éxito
         Swal.fire({
           title: '¡Bienvenido!',
           text: 'Has iniciado sesión exitosamente',
           icon: 'success',
-          confirmButtonText: 'Continuar'
+          confirmButtonText: 'Continuar',
+          allowOutsideClick: false
         }).then(() => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/dashboard']);
         });
       },
       error: (err) => {
+        this.loading = false;
         if (err.status === 404) {
           this.errorMessage = 'No existe una cuenta con este email';
         } else if (err.status === 401) {
           this.errorMessage = 'Contraseña incorrecta';
         } else {
-          this.errorMessage = 'Error en el login, intenta de nuevo';
+          this.errorMessage = 'Error en el servidor, por favor intenta más tarde';
         }
-        console.error('Error en login:', err);
+        
+        Swal.fire({
+          title: 'Error',
+          text: this.errorMessage,
+          icon: 'error',
+          confirmButtonText: 'Entendido'
+        });
       }
     });
   }

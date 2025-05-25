@@ -1,0 +1,54 @@
+.card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: rgba(33, 37, 41, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.card-header {
+  border-bottom: none;
+  background: linear-gradient(45deg, #0056b3, #00ff95);
+  padding: 1.5rem;
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #00ff95;
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 149, 0.25);
+    color: white;
+  }
+}
+
+.list-group-item {
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.btn-warning {
+  background: linear-gradient(45deg, #ffc107, #ff9800);
+  border: none;
+  color: white;
+
+  &:hover {
+    background: linear-gradient(45deg, #ff9800, #ffc107);
+  }
+}
+
+.btn-danger {
+  background: linear-gradient(45deg, #dc3545, #c82333);
+  border: none;
+
+  &:hover {
+    background: linear-gradient(45deg, #c82333, #dc3545);
+  }
+}

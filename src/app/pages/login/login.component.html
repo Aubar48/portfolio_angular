@@ -38,7 +38,20 @@
             </div>
 
             <div class="d-grid mb-3">
-              <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+              <button type="submit" class="btn btn-primary" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"
+                  aria-hidden="true"></span>
+                {{ loading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+              </button>
+            </div>
+
+            <div class="text-center mb-3">
+              <a routerLink="/recuperarpw" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <div class="text-center">
+              <span>¿No tienes cuenta? </span>
+              <a routerLink="/register" class="text-decoration-none">Regístrate aquí</a>
             </div>
           </form>
 

@@ -1,9 +1,9 @@
 const sequelize = require('../config/database');
 const Usuario = require('../models/Usuario');
-const Presentacion = require('../models/Presentacion');
-const Proyecto = require('../models/Proyecto');
-const Experiencia = require('../models/Experiencia');
-const Educacion = require('../models/Educacion');
+const Presentacion = require('../models/presentacion');
+const Proyecto = require('../models/proyecto');
+const Experiencia = require('../models/experiencia');
+const Educacion = require('../models/educacion');
 const bcrypt = require('bcrypt');
 
 async function seed() {

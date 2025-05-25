@@ -2,30 +2,38 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-// Interfaz para datos de usuario al registrarse
-export interface RegisterData {
-  nombre: string;
-  email: string;
-  password: string;
-}
-
-// Interfaz para login
-export interface LoginData {
-  email: string;
-  password: string;
-}
+import { environment } from '../../environments/environment';
+import { RegisterData } from '../../models/register.model';
+import { LoginData } from '../../models/login.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/usuarios';
+  private apiUrl = `${environment.apiUrl}/usuarios`;
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   updateLoginState(state: boolean) {
     this.isLoggedInSubject.next(state);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? parseInt(userId, 10) : null;
+  }
+
+  logout() {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isLoggedIn');
+      this.updateLoginState(false);
+    }
   }
 
   constructor(private http: HttpClient) {
@@ -42,8 +50,10 @@ export class AuthService {
   // Login
   login(data: LoginData): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data).pipe(
-      tap(() => {
+      tap((response: any) => {
         if (typeof window !== 'undefined') {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', response.user.id.toString());
           localStorage.setItem('isLoggedIn', 'true');
           this.updateLoginState(true);
         }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PresentationService, Presentation } from '../../../services/presentation/presentation.service';
+import { PresentationService } from '../../../services/presentation/presentation.service';
+import { Presentation } from '../../../models/presentation.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,16 +14,17 @@ import Swal from 'sweetalert2';
 })
 export class PresentationComponent implements OnInit {
   presentationForm: FormGroup;
+  loading = false;
 
   constructor(private fb: FormBuilder, private presentationService: PresentationService) {
     this.presentationForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      title: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      linkedinUrl: ['', Validators.required],
-      githubUrl: ['', Validators.required],
-      cvUrl: ['', Validators.required],
-      imageUrl: ['', Validators.required]
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      titulo: ['', Validators.required],
+      descripcion: ['', [Validators.required, Validators.minLength(10)]],
+      linkLinkedin: ['', Validators.required],
+      linkGithub: ['', Validators.required],
+      linkCv: ['', Validators.required],
+      foto: ['', Validators.required]
     });
   }
 
@@ -31,11 +33,14 @@ export class PresentationComponent implements OnInit {
   }
 
   private loadPresentation() {
+    this.loading = true;
     this.presentationService.getPresentation().subscribe({
       next: (data) => {
         this.presentationForm.patchValue(data);
+        this.loading = false;
       },
       error: (error) => {
+        this.loading = false;
         console.error('Error al cargar la presentación:', error);
         Swal.fire({
           icon: 'error',
@@ -48,10 +53,20 @@ export class PresentationComponent implements OnInit {
 
   onSubmit() {
     if (this.presentationForm.valid) {
+      this.loading = true;
       const presentationData: Presentation = this.presentationForm.value;
+      const formData = new FormData();
       
-      this.presentationService.updatePresentation(presentationData).subscribe({
+      Object.keys(presentationData).forEach(key => {
+        const value = presentationData[key as keyof Presentation];
+        if (value !== undefined && value !== null) {
+          formData.append(key, value.toString());
+        }
+      });
+      
+      this.presentationService.updatePresentation(presentationData.id || 1, formData).subscribe({
         next: () => {
+          this.loading = false;
           Swal.fire({
             icon: 'success',
             title: '¡Guardado!',
@@ -59,6 +74,7 @@ export class PresentationComponent implements OnInit {
           });
         },
         error: (error) => {
+          this.loading = false;
           console.error('Error al guardar los cambios:', error);
           Swal.fire({
             icon: 'error',

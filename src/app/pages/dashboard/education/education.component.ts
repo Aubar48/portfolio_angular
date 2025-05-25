@@ -1,49 +1,142 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { EducationService } from '../../../services/education/education.service';
+import { Education } from '../../../models/education.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-education',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card bg-dark text-white">
-            <div class="card-header bg-primary">
-              <h2 class="mb-0">Gestionar Educación</h2>
-            </div>
-            <div class="card-body">
-              <p class="text-center">Próximamente: Gestión de información educativa</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .card {
-      border: none;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      background: rgba(33, 37, 41, 0.95);
-      backdrop-filter: blur(10px);
-    }
-
-    .card-header {
-      border-bottom: none;
-      background: linear-gradient(45deg, #0056b3, #00ff95);
-      padding: 1.5rem;
-    }
-
-    h2 {
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .card-body {
-      padding: 2rem;
-    }
-  `]
+  templateUrl: './education.component.html',
+  styleUrls: ['./education.component.scss']
 })
-export class EducationComponent {}
+export class EducationComponent implements OnInit {
+  educationForm: FormGroup;
+  education: Education[] = [];
+  selectedFile: File | null = null;
+  editingId: number | null = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private educationService: EducationService
+  ) {
+    this.educationForm = this.fb.group({
+      institucion: ['', Validators.required],
+      titulo: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      inicio: ['', Validators.required],
+      fin: ['', Validators.required]
+    });
+  }
+
+  ngOnInit() {
+    this.loadEducation();
+  }
+
+  loadEducation() {
+    this.educationService.getEducation().subscribe({
+      next: (data) => {
+        this.education = data;
+      },
+      error: (error) => {
+        console.error('Error al cargar educación:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo cargar la información educativa'
+        });
+      }
+    });
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  onSubmit() {
+    if (this.educationForm.valid) {
+      const formData = new FormData();
+      const formValue = this.educationForm.value;
+
+      Object.keys(formValue).forEach(key => {
+        formData.append(key, formValue[key]);
+      });
+
+      if (this.selectedFile) {
+        formData.append('foto', this.selectedFile);
+      }
+
+      const action = this.editingId
+        ? this.educationService.updateEducation(this.editingId, formData)
+        : this.educationService.createEducation(formData);
+
+      action.subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: `Educación ${this.editingId ? 'actualizada' : 'creada'} correctamente`
+          });
+          this.resetForm();
+          this.loadEducation();
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `No se pudo ${this.editingId ? 'actualizar' : 'crear'} la educación`
+          });
+        }
+      });
+    }
+  }
+
+  editEducation(education: Education) {
+    this.editingId = education.id!;
+    this.educationForm.patchValue({
+      institucion: education.institucion,
+      titulo: education.titulo,
+      descripcion: education.descripcion,
+      inicio: education.inicio,
+      fin: education.fin
+    });
+  }
+
+  deleteEducation(id: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.educationService.deleteEducation(id).subscribe({
+          next: () => {
+            Swal.fire('¡Eliminado!', 'La educación ha sido eliminada.', 'success');
+            this.loadEducation();
+          },
+          error: (error) => {
+            console.error('Error al eliminar:', error);
+            Swal.fire('Error', 'No se pudo eliminar la educación.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  resetForm() {
+    this.editingId = null;
+    this.selectedFile = null;
+    this.educationForm.reset();
+  }
+}

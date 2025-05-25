@@ -39,16 +39,30 @@
               <label for="password" class="form-label">Contraseña</label>
               <input type="password" id="password" class="form-control" formControlName="password"
                 placeholder="************" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+              <div class="form-text text-muted">
+                La contraseña debe contener:
+                <ul class="small">
+                  <li>Al menos 8 caracteres</li>
+                  <li>Al menos una letra mayúscula</li>
+                  <li>Al menos una letra minúscula</li>
+                  <li>Al menos un número</li>
+                  <li>Al menos un carácter especial (&#64;$!%*?&)</li>
+                </ul>
+              </div>
               <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
                 <div *ngIf="f['password'].errors['required']">La contraseña es obligatoria</div>
-                <div *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+                <div *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 8 caracteres</div>
+                <div *ngIf="f['password'].errors['pattern']">La contraseña no cumple con los requisitos de seguridad
+                </div>
               </div>
             </div>
 
 
             <div class="d-grid mb-3">
-              <button type="submit" class="btn btn-success" data-test="register-button">
-                Registrarse
+              <button type="submit" class="btn btn-success" data-test="register-button" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"
+                  aria-hidden="true"></span>
+                {{ loading ? 'Registrando...' : 'Registrarse' }}
               </button>
             </div>
 
