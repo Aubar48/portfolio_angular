@@ -1,35 +1,50 @@
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="ratio ratio-16x9 mb-4">
-                <iframe src="https://www.youtube.com/embed/0YRX4pEP6pY"
-                    title="CARDIO 30 MINUTOS PARA ELIMINAR GRASA ABDOMINAL"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="ratio ratio-16x9 mb-4">
+        <iframe src="https://www.youtube.com/embed/0YRX4pEP6pY" title="CARDIO 30 MINUTOS PARA ELIMINAR GRASA ABDOMINAL"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title mb-4 text-center">¡Bienvenido de nuevo!</h3>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control"
+                [ngClass]="{'is-invalid': submitted && f['email'].errors}" formControlName="email"
+                placeholder="Tu correo electrónico" />
+              <div class="form-text text-danger" *ngIf="submitted && f['email'].errors">
+                <span *ngIf="f['email'].errors['required']">El email es obligatorio.</span>
+                <span *ngIf="f['email'].errors['email']">Formato de email inválido.</span>
+              </div>
             </div>
 
-            <div class="card shadow">
-                <div class="card-body">
-                    <h3 class="card-title mb-4 text-center">¡Bienvenido de nuevo!</h3>
-
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                        <input type="email" formControlName="email" />
-                        <div class="form-text text-danger" *ngIf="submitted && f['email'].errors">
-                            <span *ngIf="f['email'].errors['required']">El email es obligatorio.</span>
-                            <span *ngIf="f['email'].errors['email']">Formato de email inválido.</span>
-                        </div>
-
-                        <input type="password" formControlName="password" />
-                        <div class="form-text text-danger" *ngIf="submitted && f['password'].errors">
-                            <span *ngIf="f['password'].errors['required']">La contraseña es obligatoria.</span>
-                        </div>
-
-                        <button type="submit">Iniciar sesión</button>
-                    </form>
-
-                </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" id="password" class="form-control"
+                [ngClass]="{'is-invalid': submitted && f['password'].errors}" formControlName="password"
+                placeholder="************" />
+              <div class="form-text text-danger" *ngIf="submitted && f['password'].errors">
+                <span *ngIf="f['password'].errors['required']">La contraseña es obligatoria.</span>
+              </div>
             </div>
+
+            <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+              {{ errorMessage }}
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </div>
+          </form>
 
         </div>
+      </div>
+
     </div>
+  </div>
 </div>

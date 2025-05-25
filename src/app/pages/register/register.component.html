@@ -2,8 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="ratio ratio-16x9 mb-4">
-        <iframe src="https://www.youtube.com/embed/yKNxeF4KMsY" 
-          title="Música motivacional para entrenar"
+        <iframe src="https://www.youtube.com/embed/yKNxeF4KMsY" title="Música motivacional para entrenar"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen></iframe>
       </div>
@@ -11,42 +10,41 @@
       <div class="card shadow">
         <div class="card-body">
           <h3 class="card-title mb-4 text-center">¡Crea tu cuenta!</h3>
-          <form>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
             <div class="mb-3">
               <label for="name" class="form-label">Nombre completo</label>
-              <input type="text" id="name" class="form-control" formControlName="name"
-                     placeholder="Ingresa tu nombre completo" />
-              <div class="form-text text-danger">
-                El nombre es obligatorio
+              <input type="text" id="name" class="form-control" formControlName="nombre"
+                placeholder="Ingresa tu nombre completo"
+                [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }" />
+              <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+                <div *ngIf="f['nombre'].errors['required']">El nombre es obligatorio</div>
+                <div *ngIf="f['nombre'].errors['minlength']">El nombre debe tener al menos 3 caracteres</div>
               </div>
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input type="text" id="email" class="form-control" formControlName="email"
-                     placeholder="Tu correo electrónico" />
-              <div class="form-text text-danger">
-                El email es obligatorio
+                placeholder="Tu correo electrónico" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+              <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors['required']">El email es obligatorio</div>
+                <div *ngIf="f['email'].errors['email']">Ingresa un email válido</div>
               </div>
             </div>
 
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
               <input type="password" id="password" class="form-control" formControlName="password"
-                     placeholder="************" />
-              <div class="form-text text-danger">
-                La contraseña es obligatoria
+                placeholder="************" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+              <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors['required']">La contraseña es obligatoria</div>
+                <div *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 6 caracteres</div>
               </div>
             </div>
 
-            <div class="mb-3">
-              <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
-              <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword"
-                     placeholder="Repite tu contraseña" />
-              <div class="form-text text-danger">
-                Debes confirmar tu contraseña
-              </div>
-            </div>
 
             <div class="d-grid mb-3">
               <button type="submit" class="btn btn-success" data-test="register-button">
@@ -57,8 +55,8 @@
             <hr />
 
             <div class="d-flex justify-content-between">
-              <a href="/login">¿Ya tienes cuenta? Inicia sesión</a>
-              <a href="/politicas">Política de privacidad</a>
+              <a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+              <a routerLink="/politicas">Política de privacidad</a>
             </div>
           </form>
         </div>
