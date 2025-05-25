@@ -1,0 +1,94 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark text-white">
+                <div class="card-header bg-primary">
+                    <h2 class="mb-0">Editar Presentación</h2>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="presentationForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name" formControlName="name"
+                                [ngClass]="{'is-invalid': presentationForm.get('name')?.invalid && presentationForm.get('name')?.touched}">
+                            <div class="invalid-feedback" *ngIf="presentationForm.get('name')?.errors?.['required']">
+                                El nombre es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="presentationForm.get('name')?.errors?.['minlength']">
+                                El nombre debe tener al menos 3 caracteres
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="title" formControlName="title"
+                                [ngClass]="{'is-invalid': presentationForm.get('title')?.invalid && presentationForm.get('title')?.touched}">
+                            <div class="invalid-feedback" *ngIf="presentationForm.get('title')?.errors?.['required']">
+                                El título es requerido
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="description" rows="4" formControlName="description"
+                                [ngClass]="{'is-invalid': presentationForm.get('description')?.invalid && presentationForm.get('description')?.touched}"></textarea>
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('description')?.errors?.['required']">
+                                La descripción es requerida
+                            </div>
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('description')?.errors?.['minlength']">
+                                La descripción debe tener al menos 10 caracteres
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="linkedinUrl" class="form-label">URL de LinkedIn</label>
+                            <input type="url" class="form-control" id="linkedinUrl" formControlName="linkedinUrl"
+                                [ngClass]="{'is-invalid': presentationForm.get('linkedinUrl')?.invalid && presentationForm.get('linkedinUrl')?.touched}">
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('linkedinUrl')?.errors?.['required']">
+                                La URL de LinkedIn es requerida
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="githubUrl" class="form-label">URL de GitHub</label>
+                            <input type="url" class="form-control" id="githubUrl" formControlName="githubUrl"
+                                [ngClass]="{'is-invalid': presentationForm.get('githubUrl')?.invalid && presentationForm.get('githubUrl')?.touched}">
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('githubUrl')?.errors?.['required']">
+                                La URL de GitHub es requerida
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cvUrl" class="form-label">URL del CV</label>
+                            <input type="url" class="form-control" id="cvUrl" formControlName="cvUrl"
+                                [ngClass]="{'is-invalid': presentationForm.get('cvUrl')?.invalid && presentationForm.get('cvUrl')?.touched}">
+                            <div class="invalid-feedback" *ngIf="presentationForm.get('cvUrl')?.errors?.['required']">
+                                La URL del CV es requerida
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imageUrl" class="form-label">URL de la Imagen</label>
+                            <input type="url" class="form-control" id="imageUrl" formControlName="imageUrl"
+                                [ngClass]="{'is-invalid': presentationForm.get('imageUrl')?.invalid && presentationForm.get('imageUrl')?.touched}">
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('imageUrl')?.errors?.['required']">
+                                La URL de la imagen es requerida
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" [disabled]="presentationForm.invalid">Guardar
+                                Cambios</button>
+                            <button type="button" class="btn btn-outline-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

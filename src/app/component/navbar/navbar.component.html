@@ -15,6 +15,7 @@
           <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
         </ng-container>
         <ng-container *ngIf="isLoggedIn">
+          <li class="nav-item"><a class="nav-link" routerLink="/dashboard">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Cerrar Sesión</a></li>
         </ng-container>
 
