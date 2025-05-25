@@ -49,4 +49,34 @@ Este proyecto puede ejecutarse de forma local fácilmente:
 - 💼 Portfolio: [netlify](https://elegant-pothos-3e7713.netlify.app/)  
 
 
+La API está corriendo en http://localhost:3000 . Aquí están todas las rutas disponibles para gestionar tu portfolio:
+
+### Usuarios
+- GET /api/usuarios - Obtener todos los usuarios
+- POST /api/usuarios - Crear un usuario
+- POST /api/usuarios/login - iniciar sesion con el usuario
+### Presentación
+- GET /api/presentaciones - Obtener datos de presentación
+- POST /api/presentaciones - Crear presentación (acepta foto)
+- PUT /api/presentaciones/:id - Actualizar presentación
+- DELETE /api/presentaciones/:id - Eliminar presentación
+### Proyectos
+- GET /api/proyectos - Obtener todos los proyectos
+- POST /api/proyectos - Crear proyecto (acepta foto)
+- PUT /api/proyectos/:id - Actualizar proyecto
+- DELETE /api/proyectos/:id - Eliminar proyecto
+### Experiencia
+- GET /api/experiencias - Obtener todas las experiencias
+- POST /api/experiencias - Crear experiencia (acepta foto)
+- PUT /api/experiencias/:id - Actualizar experiencia
+- DELETE /experiencias/:id - Eliminar experiencia
+### Educación
+- GET /api/educacion - Obtener toda la educación
+- POST /api/educacion - Crear educación (acepta foto)
+- PUT /api/educacion/:id - Actualizar educación
+- DELETE /api/educacion/:id - Eliminar educación
+
+Para las rutas que aceptan fotos, debes enviar los datos como form-data donde el campo de la imagen debe llamarse foto .
+Puedes usar herramientas como Postman o Thunder Client para probar estas rutas.
+
 
