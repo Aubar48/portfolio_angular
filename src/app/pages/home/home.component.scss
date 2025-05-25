@@ -1,31 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('https://wallpapers.com/images/hd/warrior-in-metal-armor-holding-sword-qa49895pga4vtexw.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #ffffff;
+}
+
 /* Desktop: botón abajo derecha, audio abajo izquierda */
 #btnScrollTop {
   bottom: 1rem;
   right: 1rem;
   z-index: 999;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: 50%;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+  }
 }
 
-#audioPlayer {
+.spotify {
   bottom: 1rem;
   left: 1rem;
-}
-.spotify{
-  bottom: 1rem; 
-  left: 1rem; 
-  z-index: 998; 
-  width: 300px; 
+  z-index: 998;
+  width: 300px;
   height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Móvil: botón justo arriba del audio (ambos abajo) */
 @media (max-width: 767.98px) {
-  #audioPlayer {
-    bottom: 1rem;
-    left: 1rem;
+  .spotify {
+    width: 250px;
   }
-  
+
   #btnScrollTop {
-    bottom: 6rem; /* ajusta según tamaño del audio */
+    bottom: 6rem;
     right: 1rem;
   }
 }

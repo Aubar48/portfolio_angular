@@ -1,8 +1,10 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PresentacionComponent } from "../../component/presentacion/presentacion.component";
 import { EstudiosComponent } from "../../component/estudios/estudios.component";
 import { ProjectosComponent } from "../../component/projectos/projectos.component";
 import { CommonModule } from '@angular/common';
+import * as AOS from 'aos';
+import 'aos/dist/aos.css';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']  // corregí styleUrl a styleUrls (plural)
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  ngOnInit() {
+    AOS.init({
+      duration: 1000,
+      once: false,
+      mirror: true
+    });
+  }
   showScrollTopButton = false;
 
   scrollToTop(): void {

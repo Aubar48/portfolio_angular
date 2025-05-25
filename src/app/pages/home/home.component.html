@@ -1,22 +1,24 @@
-<app-presentacion></app-presentacion>
-<app-estudios></app-estudios>
-<app-projectos></app-projectos>
+<div data-aos="fade-up" data-aos-duration="1000">
+  <app-presentacion></app-presentacion>
+</div>
+
+<div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+  <app-estudios></app-estudios>
+</div>
+
+<div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+  <app-projectos></app-projectos>
+</div>
 
 <!-- Botón Scroll Top -->
-<button *ngIf="showScrollTopButton" 
-        class="btn position-fixed shadow"
-        (click)="scrollToTop()" 
-        title="Volver arriba"
-        id="btnScrollTop">
+<button *ngIf="showScrollTopButton" class="btn position-fixed" (click)="scrollToTop()" title="Volver arriba"
+  id="btnScrollTop" data-aos="fade-left" data-aos-duration="500">
   <i class="fas fa-arrow-up"></i>
 </button>
 
 <!-- Spotify Embed -->
-<div class="position-fixed shadow spotify">
-  <iframe
-    src="https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS"
-    width="100%" height="80" frameborder="0"
-    allowtransparency="true" allow="encrypted-media"
-    loading="lazy">
+<div class="position-fixed spotify" data-aos="fade-right" data-aos-duration="500">
+  <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS" width="100%" height="80" frameborder="0"
+    allowtransparency="true" allow="encrypted-media" loading="lazy">
   </iframe>
 </div>

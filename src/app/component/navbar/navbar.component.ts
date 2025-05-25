@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
+  isDarkMode = false;
 
   private authSubscription: Subscription;
 
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-bs-theme', newTheme);
       localStorage.setItem('theme', newTheme);
+      this.isDarkMode = newTheme === 'dark';
     }
   }
 
@@ -52,6 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
       const savedTheme = localStorage.getItem('theme') || 'light';
       document.documentElement.setAttribute('data-bs-theme', savedTheme);
+      this.isDarkMode = savedTheme === 'dark';
     }
   }
 }
