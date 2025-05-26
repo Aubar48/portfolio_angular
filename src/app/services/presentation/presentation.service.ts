@@ -8,12 +8,13 @@ import { Presentation } from '../../models/presentation.model';
   providedIn: 'root'
 })
 export class PresentationService {
-  private apiUrl = `${environment.apiUrl}/presentaciones`;
+  private apiUrl = `${environment.apiUrl}/presentacion`;
 
   constructor(private http: HttpClient) {}
 
   getPresentation(): Observable<Presentation> {
-    return this.http.get<Presentation>(this.apiUrl);
+    const userId = localStorage.getItem('userId');
+    return this.http.get<Presentation>(`${this.apiUrl}/${userId}`)
   }
 
   updatePresentation(id: number, formData: FormData): Observable<Presentation> {

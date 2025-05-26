@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExperienceService } from '../../../services/experience/experience.service';
 import { Experience } from '../../../models/experience.model';
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-experience',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DatePipe],
   templateUrl: './experience.component.html',
   styleUrls: ['./experience.component.scss']
 })
@@ -28,8 +28,9 @@ export class ExperienceComponent implements OnInit {
       empresa: ['', Validators.required],
       puesto: ['', Validators.required],
       descripcion: ['', Validators.required],
-      fechaInicio: ['', Validators.required],
-      fechaFin: ['']
+      inicio: ['', Validators.required],
+      fin: [''],
+      UsuarioId: [localStorage.getItem('userId')]
     });
   }
 
@@ -83,9 +84,19 @@ export class ExperienceComponent implements OnInit {
       const formData = new FormData();
       const formValue = this.experienceForm.value;
 
-      Object.keys(formValue).forEach(key => {
-        formData.append(key, formValue[key]);
-      });
+      // Convertir las fechas al formato correcto
+      if (formValue.inicio) {
+        formData.append('inicio', new Date(formValue.inicio).toISOString().split('T')[0]);
+      }
+      if (formValue.fin) {
+        formData.append('fin', new Date(formValue.fin).toISOString().split('T')[0]);
+      }
+
+      // Agregar el resto de los campos
+      formData.append('empresa', formValue.empresa);
+      formData.append('puesto', formValue.puesto);
+      formData.append('descripcion', formValue.descripcion);
+      formData.append('UsuarioId', formValue.UsuarioId);
 
       if (this.selectedFile) {
         formData.append('foto', this.selectedFile);
@@ -124,8 +135,8 @@ export class ExperienceComponent implements OnInit {
       empresa: experience.empresa,
       puesto: experience.puesto,
       descripcion: experience.descripcion,
-      fechaInicio: experience.fechaInicio,
-      fechaFin: experience.fechaFin
+      inicio: experience.inicio,
+      fin: experience.fin
     });
   }
 

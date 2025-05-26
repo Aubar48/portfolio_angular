@@ -20,6 +20,10 @@ const Educacion = sequelize.define('Educacion', {
     type: DataTypes.DATEONLY,
     allowNull: true,
   },
+  descripcion: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   foto: {
     type: DataTypes.STRING,
     allowNull: true,

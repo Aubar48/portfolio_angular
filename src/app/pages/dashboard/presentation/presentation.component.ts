@@ -15,11 +15,13 @@ import Swal from 'sweetalert2';
 export class PresentationComponent implements OnInit {
   presentationForm: FormGroup;
   loading = false;
+  selectedFile: File | null = null;
+  previewImage: string | null = null;
 
   constructor(private fb: FormBuilder, private presentationService: PresentationService) {
     this.presentationForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
-      titulo: ['', Validators.required],
+      apellido: ['', [Validators.required, Validators.minLength(2)]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
       linkLinkedin: ['', Validators.required],
       linkGithub: ['', Validators.required],
@@ -38,6 +40,9 @@ export class PresentationComponent implements OnInit {
       next: (data) => {
         this.presentationForm.patchValue(data);
         this.loading = false;
+        if (data.foto) {
+          this.previewImage = `http://localhost:3000/uploads/presentaciones/${data.foto}`;
+        }
       },
       error: (error) => {
         this.loading = false;
@@ -51,20 +56,35 @@ export class PresentationComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit() {
     if (this.presentationForm.valid) {
       this.loading = true;
-      const presentationData: Presentation = this.presentationForm.value;
       const formData = new FormData();
       
-      Object.keys(presentationData).forEach(key => {
-        const value = presentationData[key as keyof Presentation];
-        if (value !== undefined && value !== null) {
-          formData.append(key, value.toString());
+      Object.keys(this.presentationForm.value).forEach(key => {
+        const value = this.presentationForm.get(key)?.value;
+        if (value !== undefined && value !== null && key !== 'foto') {
+          formData.append(key, value);
         }
       });
+
+      if (this.selectedFile) {
+        formData.append('foto', this.selectedFile);
+      }
       
-      this.presentationService.updatePresentation(presentationData.id || 1, formData).subscribe({
+      this.presentationService.updatePresentation(this.presentationForm.get('id')?.value || 1, formData).subscribe({
         next: () => {
           this.loading = false;
           Swal.fire({

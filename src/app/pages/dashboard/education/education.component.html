@@ -27,15 +27,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion" rows="3" formControlName="descripcion"
-                                [ngClass]="{'is-invalid': educationForm.get('descripcion')?.invalid && educationForm.get('descripcion')?.touched}"></textarea>
-                            <div class="invalid-feedback"
-                                *ngIf="educationForm.get('descripcion')?.errors?.['required']">
-                                La descripción es requerida
-                            </div>
-                        </div>
+
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -78,25 +70,29 @@
                 <div class="card-body">
                     <div class="list-group list-group-flush">
                         <div *ngFor="let edu of education" class="list-group-item bg-dark text-white border-light">
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-start">
                                 <div>
-                                    <h5 class="mb-1">{{ edu.titulo }}</h5>
-                                    <p class="mb-1">{{ edu.institucion }}</p>
-                                    <small>{{ edu.inicio }} - {{ edu.fin }}</small>
+                                    <h5 class="mb-1 text-primary">{{ edu.titulo }}</h5>
+                                    <p class="mb-1 text-light">{{ edu.institucion }}</p>
+                                    <small class="text-muted">{{ edu.inicio | date:'MMM yyyy' }} - {{ edu.fin ? (edu.fin
+                                        | date:'MMM yyyy') : 'Presente' }}</small>
                                 </div>
-                                <div>
-                                    <button class="btn btn-warning btn-sm me-2"
-                                        (click)="editEducation(edu)">Editar</button>
-                                    <button class="btn btn-danger btn-sm"
-                                        (click)="deleteEducation(edu.id!)">Eliminar</button>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-warning btn-sm" (click)="editEducation(edu)">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" (click)="deleteEducation(edu.id!)">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </button>
                                 </div>
                             </div>
-                            <p class="mt-2">{{ edu.descripcion }}</p>
-                            <img *ngIf="edu.foto" [src]="edu.foto" class="img-fluid mt-2" alt="Foto de educación">
+                            <div class="mt-3" *ngIf="edu.foto">
+                                <img [src]="'http://localhost:3000/uploads/educacion/' + edu.foto" class="img-thumbnail"
+                                    style="max-width: 200px" alt="Foto de {{ edu.titulo }}">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

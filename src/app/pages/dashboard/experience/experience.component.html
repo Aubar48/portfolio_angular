@@ -38,19 +38,19 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-                                <input type="date" class="form-control" id="fechaInicio" formControlName="fechaInicio"
-                                    [ngClass]="{'is-invalid': experienceForm.get('fechaInicio')?.invalid && experienceForm.get('fechaInicio')?.touched}">
+                                <label for="inicio" class="form-label">Fecha de Inicio</label>
+                                <input type="date" class="form-control" id="inicio" formControlName="inicio"
+                                    [ngClass]="{'is-invalid': experienceForm.get('inicio')?.invalid && experienceForm.get('inicio')?.touched}">
                                 <div class="invalid-feedback"
-                                    *ngIf="experienceForm.get('fechaInicio')?.errors?.['required']">
+                                    *ngIf="experienceForm.get('inicio')?.errors?.['required']">
                                     La fecha de inicio es requerida
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="fechaFin" class="form-label">Fecha de Fin</label>
-                                <input type="date" class="form-control" id="fechaFin" formControlName="fechaFin"
-                                    [ngClass]="{'is-invalid': experienceForm.get('fechaFin')?.invalid && experienceForm.get('fechaFin')?.touched}">
+                                <label for="fin" class="form-label">Fecha de Fin</label>
+                                <input type="date" class="form-control" id="fin" formControlName="fin"
+                                    [ngClass]="{'is-invalid': experienceForm.get('fin')?.invalid && experienceForm.get('fin')?.touched}">
                             </div>
                         </div>
 
@@ -94,7 +94,8 @@
                                 <div>
                                     <h5 class="mb-1">{{ exp.puesto }}</h5>
                                     <p class="mb-1">{{ exp.empresa }}</p>
-                                    <small>{{ exp.fechaInicio }} - {{ exp.fechaFin || 'Presente' }}</small>
+                                    <small>{{ exp.inicio | date:'MMM yyyy' }} - {{ exp.fin ? (exp.fin | date:'MMM yyyy')
+                                        : 'Presente' }}</small>
                                 </div>
                                 <div>
                                     <button class="btn btn-warning btn-sm me-2"
@@ -104,7 +105,8 @@
                                 </div>
                             </div>
                             <p class="mt-2">{{ exp.descripcion }}</p>
-                            <img *ngIf="exp.foto" [src]="exp.foto" class="img-fluid mt-2" alt="Foto de experiencia">
+                            <img *ngIf="exp.foto" [src]="'http://localhost:3000/uploads/experiencia/' + exp.foto"
+                                class="img-thumbnail mt-2" style="max-width: 200px" alt="Foto de {{ exp.empresa }}">
                         </div>
                     </div>
                 </div>

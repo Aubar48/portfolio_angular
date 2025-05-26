@@ -3,8 +3,8 @@ export interface Experience {
   puesto: string;
   empresa: string;
   descripcion: string;
-  fechaInicio: string;
-  fechaFin?: string;
+  inicio: string;
+  fin?: string;
   foto?: string;
   UsuarioId?: number;
 }

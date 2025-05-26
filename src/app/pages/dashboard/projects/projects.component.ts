@@ -88,7 +88,7 @@ import Swal from 'sweetalert2';
                     </div>
                   </div>
                   <p class="mt-2">{{ project.descripcion }}</p>
-                  <img *ngIf="project.foto" [src]="project.foto" class="img-fluid mt-2" alt="Foto del proyecto">
+                  <img *ngIf="project.foto" [src]="'http://localhost:3000/uploads/proyectos/' + project.foto" class="img-thumbnail mt-2" style="max-width: 200px" alt="Foto del proyecto">
                 </div>
               </div>
             </div>

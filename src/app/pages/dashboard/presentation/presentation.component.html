@@ -26,11 +26,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="titulo" formControlName="titulo"
-                                [ngClass]="{'is-invalid': presentationForm.get('titulo')?.invalid && presentationForm.get('titulo')?.touched}">
-                            <div class="invalid-feedback" *ngIf="presentationForm.get('titulo')?.errors?.['required']">
-                                El título es requerido
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" formControlName="apellido"
+                                [ngClass]="{'is-invalid': presentationForm.get('apellido')?.invalid && presentationForm.get('apellido')?.touched}">
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('apellido')?.errors?.['required']">
+                                El apellido es requerido
+                            </div>
+                            <div class="invalid-feedback"
+                                *ngIf="presentationForm.get('apellido')?.errors?.['minlength']">
+                                El apellido debe tener al menos 2 caracteres
                             </div>
                         </div>
 
@@ -78,11 +83,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="foto" class="form-label">URL de la Imagen</label>
-                            <input type="url" class="form-control" id="foto" formControlName="foto"
-                                [ngClass]="{'is-invalid': presentationForm.get('foto')?.invalid && presentationForm.get('foto')?.touched}">
-                            <div class="invalid-feedback" *ngIf="presentationForm.get('foto')?.errors?.['required']">
-                                La URL de la imagen es requerida
+                            <label for="foto" class="form-label">Foto</label>
+                            <input type="file" class="form-control" id="foto" (change)="onFileSelected($event)"
+                                accept="image/*">
+                            <div class="mt-2" *ngIf="previewImage">
+                                <img [src]="previewImage" alt="Vista previa" class="img-thumbnail"
+                                    style="max-width: 200px;">
                             </div>
                         </div>
 

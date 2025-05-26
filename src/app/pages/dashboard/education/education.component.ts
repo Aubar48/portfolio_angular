@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EducationService } from '../../../services/education/education.service';
 import { Education } from '../../../models/education.model';
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-education',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DatePipe],
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss']
 })
@@ -25,9 +25,10 @@ export class EducationComponent implements OnInit {
     this.educationForm = this.fb.group({
       institucion: ['', Validators.required],
       titulo: ['', Validators.required],
-      descripcion: ['', Validators.required],
       inicio: ['', Validators.required],
-      fin: ['', Validators.required]
+      fin: [''],
+      foto: [''],
+      UsuarioId: [localStorage.getItem('userId')]
     });
   }
 
@@ -63,9 +64,18 @@ export class EducationComponent implements OnInit {
       const formData = new FormData();
       const formValue = this.educationForm.value;
 
-      Object.keys(formValue).forEach(key => {
-        formData.append(key, formValue[key]);
-      });
+      // Convertir las fechas al formato correcto
+      if (formValue.inicio) {
+        formData.append('inicio', new Date(formValue.inicio).toISOString().split('T')[0]);
+      }
+      if (formValue.fin) {
+        formData.append('fin', new Date(formValue.fin).toISOString().split('T')[0]);
+      }
+
+      // Agregar el resto de los campos
+      formData.append('institucion', formValue.institucion);
+      formData.append('titulo', formValue.titulo);
+      formData.append('UsuarioId', formValue.UsuarioId);
 
       if (this.selectedFile) {
         formData.append('foto', this.selectedFile);
@@ -102,9 +112,9 @@ export class EducationComponent implements OnInit {
     this.educationForm.patchValue({
       institucion: education.institucion,
       titulo: education.titulo,
-      descripcion: education.descripcion,
       inicio: education.inicio,
-      fin: education.fin
+      fin: education.fin,
+      UsuarioId: education.UsuarioId
     });
   }
 
