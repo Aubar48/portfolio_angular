@@ -16,12 +16,12 @@ export class ProjectsService {
     return this.http.get<Project[]>(this.apiUrl);
   }
 
-  createProject(formData: FormData): Observable<Project> {
-    return this.http.post<Project>(this.apiUrl, formData);
+  createProject(project: Project): Observable<Project> {
+    return this.http.post<Project>(this.apiUrl, project);
   }
 
-  updateProject(id: number, formData: FormData): Observable<Project> {
-    return this.http.put<Project>(`${this.apiUrl}/${id}`, formData);
+  updateProject(id: number, project: Project): Observable<Project> {
+    return this.http.put<Project>(`${this.apiUrl}/${id}`, project);
   }
 
   deleteProject(id: number): Observable<void> {

@@ -15,10 +15,8 @@ import Swal from 'sweetalert2';
 export class ExperienceComponent implements OnInit {
   experienceForm: FormGroup;
   experiences: Experience[] = [];
-  selectedFile: File | null = null;
   editingId: number | null = null;
   loading = false;
-  fileError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +28,7 @@ export class ExperienceComponent implements OnInit {
       descripcion: ['', Validators.required],
       inicio: ['', Validators.required],
       fin: [''],
+      foto: ['', Validators.required],
       UsuarioId: [localStorage.getItem('userId')]
     });
   }
@@ -57,54 +56,24 @@ export class ExperienceComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    this.fileError = null;
-    
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        this.fileError = 'El archivo no debe superar los 5MB';
-        event.target.value = '';
-        return;
-      }
-      
-      if (!file.type.startsWith('image/')) {
-        this.fileError = 'El archivo debe ser una imagen';
-        event.target.value = '';
-        return;
-      }
-      
-      this.selectedFile = file;
-    }
-  }
+
 
   onSubmit() {
-    if (this.experienceForm.valid && !this.fileError) {
+    if (this.experienceForm.valid) {
       this.loading = true;
-      const formData = new FormData();
-      const formValue = this.experienceForm.value;
-
+      const experience = this.experienceForm.value;
+      
       // Convertir las fechas al formato correcto
-      if (formValue.inicio) {
-        formData.append('inicio', new Date(formValue.inicio).toISOString().split('T')[0]);
+      if (experience.inicio) {
+        experience.inicio = new Date(experience.inicio).toISOString().split('T')[0];
       }
-      if (formValue.fin) {
-        formData.append('fin', new Date(formValue.fin).toISOString().split('T')[0]);
-      }
-
-      // Agregar el resto de los campos
-      formData.append('empresa', formValue.empresa);
-      formData.append('puesto', formValue.puesto);
-      formData.append('descripcion', formValue.descripcion);
-      formData.append('UsuarioId', formValue.UsuarioId);
-
-      if (this.selectedFile) {
-        formData.append('foto', this.selectedFile);
+      if (experience.fin) {
+        experience.fin = new Date(experience.fin).toISOString().split('T')[0];
       }
 
       const action = this.editingId
-        ? this.experienceService.updateExperience(this.editingId, formData)
-        : this.experienceService.createExperience(formData);
+        ? this.experienceService.updateExperience(this.editingId, experience)
+        : this.experienceService.createExperience(experience);
 
       action.subscribe({
         next: () => {
@@ -168,7 +137,7 @@ export class ExperienceComponent implements OnInit {
 
   resetForm() {
     this.editingId = null;
-    this.selectedFile = null;
+
     this.experienceForm.reset();
   }
 }

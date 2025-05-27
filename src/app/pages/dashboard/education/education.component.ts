@@ -15,7 +15,6 @@ import Swal from 'sweetalert2';
 export class EducationComponent implements OnInit {
   educationForm: FormGroup;
   education: Education[] = [];
-  selectedFile: File | null = null;
   editingId: number | null = null;
 
   constructor(
@@ -27,7 +26,7 @@ export class EducationComponent implements OnInit {
       titulo: ['', Validators.required],
       inicio: ['', Validators.required],
       fin: [''],
-      foto: [''],
+      foto: ['', Validators.required],
       UsuarioId: [localStorage.getItem('userId')]
     });
   }
@@ -52,38 +51,21 @@ export class EducationComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-    }
-  }
-
   onSubmit() {
     if (this.educationForm.valid) {
-      const formData = new FormData();
-      const formValue = this.educationForm.value;
+      const education = this.educationForm.value;
 
       // Convertir las fechas al formato correcto
-      if (formValue.inicio) {
-        formData.append('inicio', new Date(formValue.inicio).toISOString().split('T')[0]);
+      if (education.inicio) {
+        education.inicio = new Date(education.inicio).toISOString().split('T')[0];
       }
-      if (formValue.fin) {
-        formData.append('fin', new Date(formValue.fin).toISOString().split('T')[0]);
-      }
-
-      // Agregar el resto de los campos
-      formData.append('institucion', formValue.institucion);
-      formData.append('titulo', formValue.titulo);
-      formData.append('UsuarioId', formValue.UsuarioId);
-
-      if (this.selectedFile) {
-        formData.append('foto', this.selectedFile);
+      if (education.fin) {
+        education.fin = new Date(education.fin).toISOString().split('T')[0];
       }
 
       const action = this.editingId
-        ? this.educationService.updateEducation(this.editingId, formData)
-        : this.educationService.createEducation(formData);
+        ? this.educationService.updateEducation(this.editingId, education)
+        : this.educationService.createEducation(education);
 
       action.subscribe({
         next: () => {
@@ -146,7 +128,7 @@ export class EducationComponent implements OnInit {
 
   resetForm() {
     this.editingId = null;
-    this.selectedFile = null;
+
     this.educationForm.reset();
   }
 }

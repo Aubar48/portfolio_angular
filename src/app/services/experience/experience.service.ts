@@ -16,12 +16,12 @@ export class ExperienceService {
     return this.http.get<Experience[]>(this.apiUrl);
   }
 
-  createExperience(formData: FormData): Observable<Experience> {
-    return this.http.post<Experience>(this.apiUrl, formData);
+  createExperience(experience: Experience): Observable<Experience> {
+    return this.http.post<Experience>(this.apiUrl, experience);
   }
 
-  updateExperience(id: number, formData: FormData): Observable<Experience> {
-    return this.http.put<Experience>(`${this.apiUrl}/${id}`, formData);
+  updateExperience(id: number, experience: Experience): Observable<Experience> {
+    return this.http.put<Experience>(`${this.apiUrl}/${id}`, experience);
   }
 
   deleteExperience(id: number): Observable<void> {

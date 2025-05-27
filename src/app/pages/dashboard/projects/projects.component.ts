@@ -57,8 +57,13 @@ import Swal from 'sweetalert2';
                 </div>
 
                 <div class="mb-3">
-                  <label for="foto" class="form-label">Foto</label>
-                  <input type="file" class="form-control" id="foto" (change)="onFileSelected($event)" accept="image/*">
+                  <label for="foto" class="form-label">URL de la Foto</label>
+                  <input type="url" class="form-control" id="foto" formControlName="foto"
+                    placeholder="https://ejemplo.com/imagen.jpg"
+                    [ngClass]="{'is-invalid': projectForm.get('foto')?.invalid && projectForm.get('foto')?.touched}">
+                  <div class="invalid-feedback" *ngIf="projectForm.get('foto')?.errors?.['required']">
+                    La URL de la foto es requerida
+                  </div>
                 </div>
 
                 <div class="d-grid gap-2">
@@ -88,7 +93,7 @@ import Swal from 'sweetalert2';
                     </div>
                   </div>
                   <p class="mt-2">{{ project.descripcion }}</p>
-                  <img *ngIf="project.foto" [src]="'http://localhost:3000/uploads/proyectos/' + project.foto" class="img-thumbnail mt-2" style="max-width: 200px" alt="Foto del proyecto">
+                  <img *ngIf="project.foto" [src]="project.foto" class="img-thumbnail mt-2" style="max-width: 200px" alt="Foto del proyecto">
                 </div>
               </div>
             </div>
@@ -157,7 +162,6 @@ import Swal from 'sweetalert2';
 export class ProjectsComponent implements OnInit {
   projectForm: FormGroup;
   projects: Project[] = [];
-  selectedFile: File | null = null;
   editingId: number | null = null;
 
   constructor(
@@ -168,7 +172,8 @@ export class ProjectsComponent implements OnInit {
       titulo: ['', Validators.required],
       descripcion: ['', Validators.required],
       linkGithub: ['', Validators.required],
-      linkDemo: ['', Validators.required]
+      linkDemo: ['', Validators.required],
+      foto: ['', Validators.required]
     });
   }
 
@@ -192,29 +197,13 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-    }
-  }
-
   onSubmit() {
     if (this.projectForm.valid) {
-      const formData = new FormData();
-      const formValue = this.projectForm.value;
-
-      Object.keys(formValue).forEach(key => {
-        formData.append(key, formValue[key]);
-      });
-
-      if (this.selectedFile) {
-        formData.append('foto', this.selectedFile);
-      }
+      const project = this.projectForm.value;
 
       const action = this.editingId
-        ? this.projectsService.updateProject(this.editingId, formData)
-        : this.projectsService.createProject(formData);
+        ? this.projectsService.updateProject(this.editingId, project)
+        : this.projectsService.createProject(project);
 
       action.subscribe({
         next: () => {
@@ -278,7 +267,7 @@ export class ProjectsComponent implements OnInit {
 
   resetForm() {
     this.editingId = null;
-    this.selectedFile = null;
+
     this.projectForm.reset();
   }
 }

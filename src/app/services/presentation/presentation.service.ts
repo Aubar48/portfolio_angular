@@ -17,7 +17,7 @@ export class PresentationService {
     return this.http.get<Presentation>(`${this.apiUrl}/${userId}`)
   }
 
-  updatePresentation(id: number, formData: FormData): Observable<Presentation> {
-    return this.http.put<Presentation>(`${this.apiUrl}/${id}`, formData);
+  updatePresentation(id: number, presentation: Presentation): Observable<Presentation> {
+    return this.http.put<Presentation>(`${this.apiUrl}/${id}`, presentation);
   }
 }

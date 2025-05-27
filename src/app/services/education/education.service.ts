@@ -16,12 +16,12 @@ export class EducationService {
     return this.http.get<Education[]>(this.apiUrl);
   }
 
-  createEducation(formData: FormData): Observable<Education> {
-    return this.http.post<Education>(this.apiUrl, formData);
+  createEducation(education: Education): Observable<Education> {
+    return this.http.post<Education>(this.apiUrl, education);
   }
 
-  updateEducation(id: number, formData: FormData): Observable<Education> {
-    return this.http.put<Education>(`${this.apiUrl}/${id}`, formData);
+  updateEducation(id: number, education: Education): Observable<Education> {
+    return this.http.put<Education>(`${this.apiUrl}/${id}`, education);
   }
 
   deleteEducation(id: number): Observable<void> {
