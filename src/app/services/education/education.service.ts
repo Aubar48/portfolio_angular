@@ -13,7 +13,22 @@ export class EducationService {
   constructor(private http: HttpClient) {}
 
   getEducation(): Observable<Education[]> {
-    return this.http.get<Education[]>(this.apiUrl);
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      return this.http.get<Education[]>(this.apiUrl);
+    } else {
+      // Datos por defecto cuando no hay autenticación
+      return new Observable<Education[]>(observer => {
+        observer.next([{
+          titulo: 'Tecnico en Desarrollo de Software',
+          institucion: 'Instituto Superior Politecnico de Còrdoba',
+          descripcion: 'Estudios en desarrollo de software y sistemas informáticos ',
+          inicio: '2024-03-01',
+          fin: '2027-12-15',
+          foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv1lgXvTZd9UYEAdK-Mq2uZmjDMF4KLAeLnA&s'
+        }]);
+        observer.complete();
+      });
+    }
   }
 
   createEducation(education: Education): Observable<Education> {

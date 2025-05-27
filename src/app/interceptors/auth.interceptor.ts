@@ -6,6 +6,11 @@ import { catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+  // Skip auth during SSR
+  if (typeof window === 'undefined') {
+    return next(req);
+  }
+
   const authService = inject(AuthService);
   const router = inject(Router);
   const token = authService.getToken();

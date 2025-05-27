@@ -13,7 +13,22 @@ export class ExperienceService {
   constructor(private http: HttpClient) {}
 
   getExperiences(): Observable<Experience[]> {
-    return this.http.get<Experience[]>(this.apiUrl);
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      return this.http.get<Experience[]>(this.apiUrl);
+    } else {
+      // Datos por defecto cuando no hay autenticación
+      return new Observable<Experience[]>(observer => {
+        observer.next([{
+          puesto: 'Soporte tecnico informatico',
+          empresa: 'Sanatorio frances',
+          descripcion: 'Soporte tecnico informatico en la empresa sanatorio frances',
+          inicio: '2024-10-05',
+          fin: '2025-5-5',
+          foto: 'https://www.solucionespm.com/wp-content/uploads/2018/08/soporte-t%C3%A9cnico.jpg'
+        }]);
+        observer.complete();
+      });
+    }
   }
 
   createExperience(experience: Experience): Observable<Experience> {

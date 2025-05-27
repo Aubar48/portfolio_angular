@@ -13,7 +13,28 @@ export class ProjectsService {
   constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.apiUrl);
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      return this.http.get<Project[]>(this.apiUrl);
+    } else {
+      // Datos por defecto cuando no hay autenticación
+      return new Observable<Project[]>(observer => {
+        observer.next([{
+          titulo: 'App clima',
+          descripcion: 'Una aplicación moderna construida con React que permite visualizar el clima actual de cualquier ciudad del mundo en tiempo real, utilizando la API de OpenWeatherMap. El diseño es responsivo y atractivo, con animaciones y detalles visuales inspirados en aplicaciones móviles actuales.',
+          linkGithub: 'https://github.com/Aubar48/app-clima-react',
+          linkDemo: 'https://appclimanahuel.netlify.app/',
+          foto: 'https://github.com/Aubar48/app-clima-react/raw/master/public/app-clima.png'
+        },
+        {
+          titulo: 'App list pokemon',
+          descripcion: 'Este proyecto utiliza la API v2 de Pokémon para mostrar 100 cartas por página. La funcionalidad incluye la posibilidad de navegar entre páginas para visualizar otras cartas disponibles.',
+          linkGithub: 'https://github.com/Aubar48/angular_list_pokemon?tab=readme-ov-file',
+          linkDemo: 'https://allpokemoncard48.netlify.app/',
+          foto: 'https://i.ibb.co/XxDMyjKG/image.png'
+        }]);
+        observer.complete();
+      });
+    }
   }
 
   createProject(project: Project): Observable<Project> {

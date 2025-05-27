@@ -19,6 +19,7 @@ export class PresentationComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private presentationService: PresentationService) {
     this.presentationForm = this.fb.group({
+      id: [null],
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(2)]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
@@ -34,10 +35,17 @@ export class PresentationComponent implements OnInit {
   }
 
   private loadPresentation() {
+    console.log('Iniciando carga de presentación');
     this.loading = true;
     this.presentationService.getPresentation().subscribe({
       next: (data) => {
-        this.presentationForm.patchValue(data);
+        console.log('Datos recibidos:', data);
+        if (data) {
+          this.presentationForm.patchValue(data);
+          console.log('Formulario actualizado:', this.presentationForm.value);
+        } else {
+          console.log('No se recibieron datos de la API');
+        }
         this.loading = false;
   
       },
@@ -58,7 +66,12 @@ export class PresentationComponent implements OnInit {
       this.loading = true;
       const presentation = this.presentationForm.value;
       
-      this.presentationService.updatePresentation(this.presentationForm.get('id')?.value || 1, presentation).subscribe({
+      const id = this.presentationForm.get('id')?.value;
+      if (!id) {
+        console.error('No se encontró el ID de la presentación');
+        return;
+      }
+      this.presentationService.updatePresentation(id, presentation).subscribe({
         next: () => {
           this.loading = false;
           Swal.fire({

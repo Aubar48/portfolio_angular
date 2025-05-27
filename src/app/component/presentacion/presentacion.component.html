@@ -20,14 +20,16 @@
       <div class="mt-4 d-flex align-items-center flex-wrap gap-3">
         <a [href]="presentacion.linkLinkedin" target="_blank" class="fs-3"><i class="fab fa-linkedin"></i></a>
         <a [href]="presentacion.linkGithub" target="_blank" class="fs-3"><i class="fab fa-github"></i></a>
-        <a [href]="presentacion.linkCV" target="_blank" class="btn btn-primary fw-bold">🔎 Ver CV Online</a>
+        <a [href]="presentacion.linkCv" target="_blank" class="btn btn-primary fw-bold">🔎 Ver CV Online</a>
+        <button (click)="compartirPerfil()" class="btn btn-outline-light fw-bold"><i
+            class="fas fa-share-alt me-2"></i>Compartir Perfil</button>
       </div>
     </div>
 
     <!-- Foto -->
     <div class="col-lg-5 text-center" *ngIf="!loading && !error && presentacion">
-      <img [src]="'http://localhost:3000/uploads/presentaciones/' + presentacion.foto"
-        class="img-fluid rounded border-4 border-primary shadow" style="max-width: 250px;" [alt]="presentacion.nombre">
+      <img [src]="presentacion.foto" class="img-fluid rounded border-4 border-primary shadow" style="max-width: 250px;"
+        [alt]="presentacion.nombre">
     </div>
   </div>
 </div>

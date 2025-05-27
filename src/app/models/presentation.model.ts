@@ -6,6 +6,6 @@ export interface Presentation {
   foto?: string;
   linkLinkedin: string;
   linkGithub: string;
-  linkCV: string;
+  linkCv: string;
   UsuarioId?: number;
 }

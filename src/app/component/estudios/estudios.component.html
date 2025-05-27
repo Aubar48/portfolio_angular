@@ -25,8 +25,9 @@
         <div class="card-body d-flex">
           <!-- Foto -->
           <div class="me-3" *ngIf="exp.foto">
-            <img [src]="'http://localhost:3000/uploads/experiencia/' + exp.foto" [alt]="'Logo de ' + exp.empresa"
-              class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+            <img
+              [src]="exp.foto.startsWith('http') ? exp.foto : 'http://localhost:3000/uploads/experiencia/' + exp.foto"
+              [alt]="'Logo de ' + exp.empresa" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
           </div>
           <!-- Info -->
           <div>
@@ -52,8 +53,9 @@
         <div class="card-body d-flex">
           <!-- Foto -->
           <div class="me-3" *ngIf="edu.foto">
-            <img [src]="'http://localhost:3000/uploads/educacion/' + edu.foto" [alt]="'Logo de ' + edu.institucion"
-              class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+            <img [src]="edu.foto.startsWith('http') ? edu.foto : 'http://localhost:3000/uploads/educacion/' + edu.foto"
+              [alt]="'Logo de ' + edu.institucion" class="rounded"
+              style="width: 60px; height: 60px; object-fit: cover;">
           </div>
           <!-- Info -->
           <div>

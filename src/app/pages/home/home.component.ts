@@ -15,11 +15,13 @@ import 'aos/dist/aos.css';
 })
 export class HomeComponent implements OnInit {
   ngOnInit() {
-    AOS.init({
-      duration: 1000,
-      once: false,
-      mirror: true
-    });
+    if (typeof window !== 'undefined') {
+      AOS.init({
+        duration: 1000,
+        once: false,
+        mirror: true
+      });
+    }
   }
   showScrollTopButton = false;
 
